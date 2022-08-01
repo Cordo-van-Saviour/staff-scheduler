@@ -15,11 +15,17 @@ services:
       POSTGRES_HOST: "${DB_HOST}"
       PGDATA: /var/lib/postgresql/data
       ALLOW_IP_RANGE: '0.0.0.0/0'
+
   backend:
     container_name: backend
     build:
       dockerfile: Dockerfile
       context: .
+    environment:
+      POSTGRES_DB: "${DB_DATABASE}"
+      POSTGRES_USER: "${DB_USER}"
+      POSTGRES_PASSWORD: "${DB_PASS}"
+      POSTGRES_HOST: "${DB_HOST}"
     stdin_open: true
     tty: true
     volumes:
@@ -28,7 +34,6 @@ services:
     ports:
       - 3000:3000
     working_dir: /var/app
-    command: node bin/www
 volumes:
   db_data:
     name: "scheduler-postgres"

@@ -2,7 +2,7 @@ const ser = require('./service')
 const { prepareForClient, sign, attachToken, clearCookie } = require('./util')
 
 async function readUser (req, res) {
-  const data = ser.readUser(req.params.id)
+  const data = await ser.readUser(req.params.id)
   res.status(200).send(data)
 }
 

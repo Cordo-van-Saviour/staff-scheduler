@@ -1,4 +1,6 @@
-const { DB_USER, DB_PASS, DB_DATABASE, DB_HOST, DB_DIALECT } = process.env
+require('dotenv').config()
+
+const { DB_USER, DB_PASS, DB_DATABASE, DB_DIALECT, DB_HOST } = process.env
 
 module.exports = {
   rateLimit: {

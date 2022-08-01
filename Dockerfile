@@ -18,6 +18,4 @@ COPY . .
 
 EXPOSE 3000
 
-RUN npm install sequelize-cli --save
-
-CMD [ "node", "bin/www" ]
+CMD ["node", "bin/www"]

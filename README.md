@@ -1,7 +1,15 @@
 # Staff Scheduler App
 
 ### How to run
-In your terminal, in the root of the project run `docker-compose up`
+1. Download .env file to the root of the project [using this link](https://podino.s3.us-west-1.amazonaws.com/dotenv.file) 
+2. `mv dotenv.file ~/YOUR_APP_LOCATION/.env`
+3. Make sure the `DB_HOST` is set to `localhost`
+4. Run `docker-compose up -d postgres`
+5. Run `sequelize db:migrate`
+6. Change the `DB_HOST` in `.env` file to `postgres`
+7. Run `docker-compose up -d backend`
+
+> I've spent [4] hours trying to debug the issue why `sequelize db:migrate` doesn't work inside the Docker. I'll retry it fresh.  
 
 ## Security practices
 
