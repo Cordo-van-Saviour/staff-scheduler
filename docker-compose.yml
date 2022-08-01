@@ -1,0 +1,40 @@
+services:
+  postgres:
+    image: postgres
+    env_file: .env
+    container_name: postgres
+    restart: unless-stopped
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: "${DB_DATABASE}"
+      POSTGRES_USER: "${DB_USER}"
+      POSTGRES_PASSWORD: "${DB_PASS}"
+      POSTGRES_HOST: "${DB_HOST}"
+      PGDATA: /var/lib/postgresql/data
+      ALLOW_IP_RANGE: '0.0.0.0/0'
+  backend:
+    container_name: backend
+    build:
+      dockerfile: Dockerfile
+      context: .
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./:/var/app/
+      - node_modules:/var/app/node_modules
+    ports:
+      - 3000:3000
+    working_dir: /var/app
+    command: node bin/www
+volumes:
+  db_data:
+    name: "scheduler-postgres"
+  node_modules:
+    name: "scheduler-node-modules"
+networks:
+  default:
+    driver: bridge
+    name: backend
