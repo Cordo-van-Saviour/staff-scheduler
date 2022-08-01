@@ -1,7 +1,7 @@
 # Staff Scheduler App
 
 ### How to run
-In your terminal, run `node bin/www`
+In your terminal, in the root of the project run `docker-compose up`
 
 ## Security practices
 
