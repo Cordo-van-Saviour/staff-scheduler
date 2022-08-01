@@ -30,7 +30,28 @@ async function authorized (req, res, next) {
   }
 }
 
+function isAdmin (req, res, next) {
+  if (req.verified.type === 'admin') {
+    req.verified.isAdmin = true
+    next()
+  } else {
+    return res.status(403).send({ message: 'Unauthorized' })
+  }
+}
+
+function controlId (req, res, next) {
+  req.id = req.params.id
+
+  if (!req.verified.isAdmin && req.params.id !== req.verified.id) {
+    return res.status(403).send({ message: 'Unauthorized' })
+  }
+
+  next()
+}
+
 module.exports = {
   authorized,
-  authenticated
+  authenticated,
+  isAdmin,
+  controlId
 }

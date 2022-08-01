@@ -11,15 +11,16 @@ async function readScheduleEntry (req, res) {
 }
 
 async function createScheduleEntry (req, res) {
-  const body = req.body
+  const startTime = new Date(req.body.startTime)
+  const endTime = new Date(req.body.endTime)
 
-  const collision = await ser.checkCollisionForUser(req.params.id, body.startTime, body.endTime)
+  const collision = await ser.checkCollisionForUser(req.verified.id, startTime, endTime)
 
-  if (collision > 0) {
+  if (collision) {
     return res.status(409).send({ message: 'There is a time collision' })
   }
 
-  const data = await ser.createScheduleEntry(req.params.id, body.startTime, body.endTime)
+  const data = await ser.createScheduleEntry(req.verified.id, startTime, endTime)
   const returnData = prepareForClient(data)
 
   res.status(200).send(returnData)

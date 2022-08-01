@@ -9,12 +9,11 @@ module.exports = {
   ],
   createScheduleEntry: [
     body('startTime')
-      .isDate()
+      .isNumeric()
       .withMessage(VALIDATION_MESSAGES.INVALID_TIME),
     body('endTime')
-      .isAlphanumeric()
-      .isLength({ min: 8, max: 36 })
-      .withMessage(VALIDATION_MESSAGES.INVALID_PASSWORD)
+      .isNumeric()
+      .withMessage(VALIDATION_MESSAGES.INVALID_TIME)
   ],
   updateScheduleEntry: [
     param('id')

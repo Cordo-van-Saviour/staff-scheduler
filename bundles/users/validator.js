@@ -1,5 +1,6 @@
 const { body, param } = require('express-validator')
 const { VALIDATION_MESSAGES } = require('../utils/errors')
+const { companies } = require('../utils/enums')
 
 module.exports = {
   readUser: [
@@ -22,7 +23,10 @@ module.exports = {
     body('lastName')
       .isAlphanumeric()
       .isLength({ min: 2, max: 36 })
-      .withMessage(VALIDATION_MESSAGES.INVALID_NAME)
+      .withMessage(VALIDATION_MESSAGES.INVALID_NAME),
+    body('company')
+      .isIn(companies)
+      .withMessage(VALIDATION_MESSAGES.INVALID_COMPANY)
   ],
   updateUser: [
     body('email')

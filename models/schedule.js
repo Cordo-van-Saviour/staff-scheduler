@@ -11,12 +11,19 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate (models) {
       // define association here
+      Schedule.belongsTo(models.User, {
+        foreignKey: 'userId',
+        onDelete: 'CASCADE'
+      })
     }
   }
   Schedule.init({
     id: {
       type: DataTypes.UUID,
       primaryKey: true
+    },
+    userId: {
+      type: DataTypes.UUID
     },
     startTime: DataTypes.DATE,
     endTime: DataTypes.DATE

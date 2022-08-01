@@ -12,6 +12,7 @@ async function createUser (req, res) {
     id: v4(),
     firstName: req.body.firstName,
     lastName: req.body.lastName,
+    company: req.body.company,
     email: req.body.email,
     password: encryptedPassword
   })
@@ -24,7 +25,7 @@ async function createUser (req, res) {
 }
 
 async function readUser (id) {
-  const user = await db.User.findOne({ id })
+  const user = await db.User.findOne({ where: { id } })
   return prepareForClient(user)
 }
 

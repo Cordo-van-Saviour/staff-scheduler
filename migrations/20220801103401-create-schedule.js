@@ -7,6 +7,11 @@ module.exports = {
         type: Sequelize.UUID,
         primaryKey: true
       },
+      userId: {
+        allowNull: false,
+        type: Sequelize.UUID,
+        foreignKey: true
+      },
       startTime: {
         allowNull: false,
         type: Sequelize.DATE

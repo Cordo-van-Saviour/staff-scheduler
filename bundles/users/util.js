@@ -25,7 +25,8 @@ function sign (user) {
     {
       id: user.id,
       email: user.email,
-      type: user.type
+      type: user.type,
+      company: user.company
     }, TOKEN_KEY, {
       expiresIn: '2h'
     }

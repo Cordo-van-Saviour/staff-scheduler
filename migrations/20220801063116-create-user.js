@@ -1,4 +1,6 @@
 'use strict'
+const { companies } = require('../bundles/utils/enums')
+
 module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.createTable('Users', {
@@ -21,6 +23,11 @@ module.exports = {
       password: {
         allowNull: false,
         type: Sequelize.STRING
+      },
+      company: {
+        allowNull: false,
+        type: Sequelize.ENUM(companies),
+        defaultValue: 'Microsoft'
       },
       type: {
         allowNull: false,

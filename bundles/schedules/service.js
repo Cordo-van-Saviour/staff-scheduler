@@ -1,14 +1,19 @@
 const db = require('../../models')
+const { v4 } = require('uuid')
 
 async function checkCollisionForUser (userId, startTime, endTime) {
-  return await db.Schedule.count({
+  return await db.Schedule.findOne({
     where: {
       userId,
-      startTime: {
-        [db.Sequelize.Op.gt]: startTime
+      [db.Sequelize.Op.and]: {
+        startTime: {
+          [db.Sequelize.Op.between]: [startTime, endTime]
+        }
       },
-      endTime: {
-        [db.Sequelize.Op.lt]: endTime
+      [db.Sequelize.Op.or]: {
+        endTime: {
+          [db.Sequelize.Op.between]: [startTime, endTime]
+        }
       }
     }
   })
@@ -41,6 +46,7 @@ async function readScheduleEntriesByDate (startTime, endTime) {
 
 async function createScheduleEntry (userId, startTime, endTime) {
   return await db.Schedule.create({
+    id: v4(),
     userId,
     startTime,
     endTime

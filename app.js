@@ -13,6 +13,7 @@ const { rateLimit } = require('express-rate-limit')
 const rTracer = require('cls-rtracer')
 
 const usersRouter = require('./bundles/users/routes')
+const scheduleRouter = require('./bundles/schedules/routes')
 const indexRouter = require('./bundles/index')
 
 const { ErrorHandler } = require('./bundles/utils/errors')
@@ -32,6 +33,7 @@ app.use(limiter)
 
 app.use('/', indexRouter)
 app.use('/users', usersRouter)
+app.use('/schedules', scheduleRouter)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

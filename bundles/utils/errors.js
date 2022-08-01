@@ -8,7 +8,8 @@ const VALIDATION_MESSAGES = {
   INVALID_NAME: 'Your name is invalid',
   INVALID_USER_ID: 'User ID invalid. Please provide a correct UUID',
   INVALID_TIME: 'Your time is invalid.',
-  INVALID_ENTRY_ID: 'Your Schedule Entry is invalid.'
+  INVALID_ENTRY_ID: 'Your Schedule Entry is invalid.',
+  INVALID_COMPANY: 'Your Company is invalid'
 }
 
 const ERROR_MESSAGES = {
@@ -39,7 +40,7 @@ class ValidationError extends AppError {
 }
 
 class ErrorHandler {
-  async handleUserError (err, req, res, next) {
+  async handleUserError (err, req, res) {
     logger.error(err)
 
     res.status(err.statusCode || 500)
