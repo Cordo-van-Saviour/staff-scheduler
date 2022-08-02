@@ -5,7 +5,7 @@
 ### Use the demo
 You can use the [DEMO app deployed on Heroku](https://staff-scheduler-barbusa.herokuapp.com).
 
-Also, you can access the demo [documentation on Swaggerhub](https://app.swaggerhub.com/apis/Cordo-van-Saviour/scheduler/0.0.1) and run tests from there
+Also, you can access the demo [documentation on Swaggerhub](https://app.swaggerhub.com/apis/Cordo-van-Saviour/staff-scheduler/0.0.1) and run tests from there
 
 ### Running it locally
 1. Download .env file to the root of the project [using this link](https://podino.s3.us-west-1.amazonaws.com/dotenv.file) 
