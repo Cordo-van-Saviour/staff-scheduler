@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
 const config = require('config')
+const { RETURN_OBJECTS, USER_ROLES } = require('./enums')
 
 const authorizationLevel = {
   staff: 1000,
@@ -12,7 +13,7 @@ function authenticated (req, res, next) {
   let token = req.cookies[tokenHeader] ? req.cookies[tokenHeader] : req.headers[tokenHeader.toLowerCase()]
 
   if (!token) {
-    return res.status(401).send({ message: 'Access Denied' })
+    return res.status(401).send(RETURN_OBJECTS.UNAUTHORIZED)
   }
 
   token = token.split(' ')[1]
@@ -23,7 +24,7 @@ function authenticated (req, res, next) {
     next()
   } else {
     // Access Denied
-    return res.status(401).send({ message: 'Access Denied' })
+    return res.status(401).send(RETURN_OBJECTS.UNAUTHORIZED)
   }
 }
 
@@ -32,7 +33,7 @@ async function authorized (req, res, next) {
   if (authorizationLevel[req.verified.type] >= minimumAuthorizationLevel) {
     next()
   } else {
-    return res.status(403).send({ message: 'Unauthorized' })
+    return res.status(401).send(RETURN_OBJECTS.UNAUTHORIZED)
   }
 }
 
@@ -41,15 +42,15 @@ function isAdmin (req, res, next) {
     req.verified.isAdmin = true
     next()
   } else {
-    return res.status(403).send({ message: 'Unauthorized' })
+    return res.status(401).send(RETURN_OBJECTS.UNAUTHORIZED)
   }
 }
 
 function controlId (req, res, next) {
   req.id = req.params.id
 
-  if (!req.verified.isAdmin || req.params.id !== req.verified.id) {
-    return res.status(403).send({ message: 'Unauthorized' })
+  if (!req.verified.type === USER_ROLES.admin && req.params.id !== req.verified.id) {
+    return res.status(403).send(RETURN_OBJECTS.FORBIDDEN)
   }
 
   next()

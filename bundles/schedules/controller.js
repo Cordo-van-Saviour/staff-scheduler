@@ -1,5 +1,6 @@
 const ser = require('./service')
 const { prepareForClient } = require('./util')
+const { RETURN_OBJECTS } = require('../utils/enums')
 const { isAdmin } = require('../utils/misc')
 
 async function readScheduleEntry (req, res) {
@@ -21,7 +22,7 @@ async function readScheduleEntryForUser (req, res) {
 
     // if not admin, then check if users are coworkers
     if (!coworkers) {
-      return res.status(403).send({ message: 'Unauthorized' })
+      return res.status(403).send(RETURN_OBJECTS.FORBIDDEN)
     }
   }
 
@@ -53,7 +54,7 @@ async function updateScheduleEntry (req, res) {
   const exists = await ser.checkCollisionForUser(req.params.id, body.startTime, body.endTime)
 
   if (!exists || !exists.id) {
-    return res.status(404).send({ message: 'Not Found' })
+    return res.status(404).send(RETURN_OBJECTS.NOT_FOUND)
   }
 
   const data = await ser.updateScheduleEntry(exists.id, body.startTime, body.endTime)
@@ -66,12 +67,16 @@ async function deleteScheduleEntry (req, res) {
   const exists = await ser.readScheduleEntry(req.params.id)
 
   if (!exists || !exists.id) {
-    return res.status(404).send({ message: 'Not Found' })
+    return res.status(404).send(RETURN_OBJECTS.NOT_FOUND)
+  }
+
+  if (!isAdmin(req) && req.verified.id !== exists.userId) {
+    return res.status(403).send(RETURN_OBJECTS.FORBIDDEN)
   }
 
   const data = await ser.deleteScheduleEntry(exists.id)
   if (data) {
-    return res.status(200).send({ message: 'OK' })
+    return res.status(200).send(RETURN_OBJECTS.OK)
   }
 }
 
