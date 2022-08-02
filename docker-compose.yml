@@ -26,6 +26,7 @@ services:
     container_name: backend
     networks:
       - backend
+    env_file: .env
     build:
       dockerfile: Dockerfile
       context: .
@@ -34,7 +35,10 @@ services:
       DB_USER: "${DB_USER}"
       DB_PASS: "${DB_PASS}"
       DB_DIALECT: "${DB_DIALECT}"
+      DB_URI_DEVELOPMENT: "${DB_URI_DEVELOPMENT}"
     stdin_open: true
+    depends_on:
+      - postgres
     tty: true
     volumes:
       - ./:/var/app/
