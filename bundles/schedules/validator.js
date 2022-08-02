@@ -20,12 +20,12 @@ module.exports = {
       .isUUID(4)
       .withMessage(VALIDATION_MESSAGES.INVALID_ENTRY_ID),
     body('startTime')
-      .isDate()
+      .isISO8601()
       .withMessage(VALIDATION_MESSAGES.INVALID_TIME)
       .optional(),
     body('endTime')
       .isAlphanumeric()
-      .isDate()
+      .isISO8601()
       .withMessage(VALIDATION_MESSAGES.INVALID_TIME)
       .optional()
   ],

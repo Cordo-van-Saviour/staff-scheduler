@@ -2,6 +2,9 @@ const ser = require('./service')
 const { prepareForClient } = require('./util')
 const { RETURN_OBJECTS } = require('../utils/enums')
 const { isAdmin } = require('../utils/misc')
+const dayjs = require('dayjs')
+const isSameOrAfter = require('dayjs/plugin/isSameOrAfter')
+dayjs.extend(isSameOrAfter)
 
 async function readScheduleEntry (req, res) {
   const id = req.params.id
@@ -36,6 +39,10 @@ async function createScheduleEntry (req, res) {
   const startTime = req.body.startTime
   const endTime = req.body.endTime
 
+  if (dayjs(startTime).isSameOrAfter(endTime)) {
+    return res.status(409).send({ message: 'There is a time collision' })
+  }
+
   const collision = await ser.checkCollisionForUser(req.verified.id, startTime, endTime)
 
   if (collision) {
@@ -50,6 +57,12 @@ async function createScheduleEntry (req, res) {
 
 async function updateScheduleEntry (req, res) {
   const body = req.body
+  const startTime = req.body.startTime
+  const endTime = req.body.endTime
+
+  if (dayjs(startTime).isSameOrAfter(endTime)) {
+    return res.status(409).send({ message: 'There is a time collision' })
+  }
 
   const exists = await ser.checkCollisionForUser(req.params.id, body.startTime, body.endTime)
 
