@@ -11,8 +11,8 @@ async function readScheduleEntry (req, res) {
 }
 
 async function createScheduleEntry (req, res) {
-  const startTime = new Date(req.body.startTime)
-  const endTime = new Date(req.body.endTime)
+  const startTime = new Date(req.body.startTime).toISOString()
+  const endTime = new Date(req.body.endTime).toISOString()
 
   const collision = await ser.checkCollisionForUser(req.verified.id, startTime, endTime)
 

@@ -28,7 +28,7 @@ function sign (user) {
       type: user.type,
       company: user.company
     }, TOKEN_KEY, {
-      expiresIn: '2h'
+      expiresIn: '4h'
     }
   )
 }

@@ -9,10 +9,10 @@ module.exports = {
   ],
   createScheduleEntry: [
     body('startTime')
-      .isNumeric()
+      .isISO8601()
       .withMessage(VALIDATION_MESSAGES.INVALID_TIME),
     body('endTime')
-      .isNumeric()
+      .isISO8601()
       .withMessage(VALIDATION_MESSAGES.INVALID_TIME)
   ],
   updateScheduleEntry: [
