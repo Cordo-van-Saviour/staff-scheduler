@@ -1,7 +1,10 @@
 const ser = require('./service')
 const { prepareForClient } = require('./util')
-const { RETURN_OBJECTS } = require('../utils/enums')
+const { RETURN_OBJECTS, USER_ROLES } = require('../utils/enums')
 const { isAdmin } = require('../utils/misc')
+const dayjs = require('dayjs')
+const isSameOrAfter = require('dayjs/plugin/isSameOrAfter')
+dayjs.extend(isSameOrAfter)
 
 async function readScheduleEntry (req, res) {
   const id = req.params.id
@@ -36,6 +39,10 @@ async function createScheduleEntry (req, res) {
   const startTime = req.body.startTime
   const endTime = req.body.endTime
 
+  if (dayjs(startTime).isSameOrAfter(endTime)) {
+    return res.status(409).send({ message: 'There is a time collision' })
+  }
+
   const collision = await ser.checkCollisionForUser(req.verified.id, startTime, endTime)
 
   if (collision) {
@@ -50,15 +57,31 @@ async function createScheduleEntry (req, res) {
 
 async function updateScheduleEntry (req, res) {
   const body = req.body
+  const startTime = req.body.startTime
+  const endTime = req.body.endTime
 
-  const exists = await ser.checkCollisionForUser(req.params.id, body.startTime, body.endTime)
+  if (dayjs(startTime).isSameOrAfter(endTime)) {
+    return res.status(409).send({ message: 'There is a time collision' })
+  }
 
-  if (!exists || !exists.id) {
+  const returnedTime = await ser.readScheduleEntry(req.params.id)
+
+  if (!returnedTime) {
     return res.status(404).send(RETURN_OBJECTS.NOT_FOUND)
   }
 
-  const data = await ser.updateScheduleEntry(exists.id, body.startTime, body.endTime)
-  const returnData = prepareForClient(data)
+  if (returnedTime.userId !== req.verified.id && req.verified.type !== USER_ROLES.admin) {
+    return res.status(403).send(RETURN_OBJECTS.FORBIDDEN)
+  }
+
+  const collision = await ser.checkCollisionForUser(req.verified.id, startTime, endTime)
+
+  if (collision) {
+    return res.status(409).send({ message: 'There is a time collision' })
+  }
+
+  const data = await ser.updateScheduleEntry(returnedTime.id, body.startTime, body.endTime)
+  const returnData = prepareForClient(data[1][0])
 
   res.status(200).send(returnData)
 }

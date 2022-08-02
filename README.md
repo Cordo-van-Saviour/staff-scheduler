@@ -10,13 +10,12 @@ Also, you can access the demo [documentation on Swaggerhub](https://app.swaggerh
 ### Running it locally
 1. Download .env file to the root of the project [using this link](https://podino.s3.us-west-1.amazonaws.com/dotenv.file) 
 2. `mv dotenv.file ~/YOUR_APP_LOCATION/.env`
-3. Make sure the `DB_HOST` is set to `localhost`
-4. Run `docker-compose up -d postgres`
-5. Run `sequelize db:migrate`
-6. Change the `DB_HOST` in `.env` file to `postgres`
-7. Run `docker-compose up -d backend`
+3. Run `docker-compose up -d`
+4. Run `sequelize-cli db:migrate --config=config/config.js --env=docker`
+5. Run `sequelize-cli db:seed:all --config=config/config.js --env=docker`
+6. start testing
 
-> I've spent [4] hours trying to debug the issue why `sequelize db:migrate` doesn't work inside the Docker. I'll retry it fresh.  
+> I've spent [6] hours trying to debug the issue why `sequelize db:migrate` doesn't work inside the Docker. I'll retry it fresh.  
 
 ## Security practices
 
