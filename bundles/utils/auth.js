@@ -9,12 +9,13 @@ const tokenHeader = config.get('tokenHeader')
 
 function authenticated (req, res, next) {
   const jwtSecretKey = process.env.TOKEN_KEY
-
-  const token = req.cookies[tokenHeader].split(' ')[1]
+  let token = req.cookies[tokenHeader] ? req.cookies[tokenHeader] : req.headers[tokenHeader.toLowerCase()]
 
   if (!token) {
     return res.status(401).send({ message: 'Access Denied' })
   }
+
+  token = token.split(' ')[1]
 
   req.verified = jwt.verify(token, jwtSecretKey)
 
