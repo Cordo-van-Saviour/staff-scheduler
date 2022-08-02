@@ -58,7 +58,8 @@ async function updateScheduleEntry (id, startTime, endTime) {
     startTime,
     endTime
   }, {
-    where: { id }
+    where: { id },
+    returning: true
   })
 }
 

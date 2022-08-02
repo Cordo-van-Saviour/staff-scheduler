@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config({ path: `${process.cwd()}/.env` })
 
 const { DB_USER, DB_PASS, DB_DATABASE, DB_DIALECT, DB_HOST } = process.env
 

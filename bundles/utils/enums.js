@@ -7,7 +7,8 @@ const RETURN_OBJECTS = {
   BAD_REQUEST: { message: 'Bad Request', statusCode: 400, slug: 'BAD_REQUEST' },
   UNAUTHORIZED: { message: 'Unauthorized', statusCode: 401, slug: 'UNAUTHORIZED' },
   FORBIDDEN: { message: 'Forbidden', statusCode: 403, slug: 'FORBIDDEN' },
-  NOT_FOUND: { message: 'Not Found', statusCode: 404, slug: 'NOT_FOUND' }
+  NOT_FOUND: { message: 'Not Found', statusCode: 404, slug: 'NOT_FOUND' },
+  CONFLICT: { message: 'Conflict', statusCode: 409, slug: 'CONFLICT' }
 }
 
 module.exports = { companies, USER_ROLES, RETURN_OBJECTS }
