@@ -12,13 +12,13 @@ module.exports = {
         type: Sequelize.UUID,
         foreignKey: true
       },
-      startTime: {
+      startDate: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      endTime: {
+      shiftLength: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,

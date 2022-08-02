@@ -1,20 +1,11 @@
 const db = require('../../models')
 const { v4 } = require('uuid')
 
-async function checkCollisionForUser (userId, startTime, endTime) {
+async function checkCollisionForUser (userId, startDate) {
   return await db.Schedule.findOne({
     where: {
       userId,
-      [db.Sequelize.Op.and]: {
-        startTime: {
-          [db.Sequelize.Op.between]: [startTime, endTime]
-        }
-      },
-      [db.Sequelize.Op.or]: {
-        endTime: {
-          [db.Sequelize.Op.between]: [startTime, endTime]
-        }
-      }
+      startDate
     }
   })
 }
@@ -31,32 +22,31 @@ async function readScheduleEntriesByUser (userId) {
   })
 }
 
-async function readScheduleEntriesByDate (startTime, endTime) {
+async function readScheduleEntriesByDate (startDay, endDay) {
   return await db.Schedule.findAll({
     where: {
-      startTime: {
-        [db.Sequelize.Op.gt]: startTime
-      },
-      endTime: {
-        [db.Sequelize.Op.lt]: endTime
+      startDate: {
+        [db.Sequelize.Op.gt]: startDay,
+        [db.Sequelize.Op.lt]: endDay
       }
-    }
+    },
+    include: ['User']
   })
 }
 
-async function createScheduleEntry (userId, startTime, endTime) {
+async function createScheduleEntry (userId, startDate, shiftLength) {
   return await db.Schedule.create({
     id: v4(),
     userId,
-    startTime,
-    endTime
+    startDate,
+    shiftLength
   })
 }
 
-async function updateScheduleEntry (id, startTime, endTime) {
+async function updateScheduleEntry (id, startDate, shiftLength) {
   return await db.Schedule.update({
-    startTime,
-    endTime
+    startDate,
+    shiftLength
   }, {
     where: { id },
     returning: true
@@ -72,11 +62,7 @@ async function checkWhetherCoworkers (targetId, callerId) {
     return false
   }
 
-  if (targetUser.company !== callerUser.company) {
-    return false
-  }
-
-  return true
+  return targetUser.company === callerUser.company
 }
 
 async function deleteScheduleEntry (id) {
