@@ -43,7 +43,9 @@ app.use(function (req, res, next) {
 const errorHandler = new ErrorHandler()
 
 // error handler
-app.use(errorHandler.handleUserError)
+app.use(async (err, req, res, next) => {
+  await errorHandler.handleUserError(err, req, res, next)
+})
 
 process.on('uncaughtException', error => {
   errorHandler.handleSystemError(error)

@@ -40,10 +40,9 @@ class ValidationError extends AppError {
 }
 
 class ErrorHandler {
-  async handleUserError (err, req, res) {
+  async handleUserError (err, req, res, next) {
     logger.error(err)
 
-    res.status(err.statusCode || 500)
     const data = { message: err.message, slug: err.slug }
 
     // validation handling
@@ -51,7 +50,7 @@ class ErrorHandler {
       data.errors = err.errors
     }
 
-    res.send(data)
+    return res.status(err.statusCode || 500).send(data)
   }
 
   async handleSystemError (err) {
