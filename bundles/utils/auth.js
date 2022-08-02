@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
 const config = require('config')
+
 const authorizationLevel = {
   staff: 1000,
   admin: 2000
@@ -9,7 +10,11 @@ const tokenHeader = config.get('tokenHeader')
 function authenticated (req, res, next) {
   const jwtSecretKey = process.env.TOKEN_KEY
 
-  const token = req.cookies[tokenHeader]
+  const token = req.cookies[tokenHeader][1]
+
+  if (!token) {
+    return res.status(401).send({ message: 'Access Denied' })
+  }
 
   req.verified = jwt.verify(token, jwtSecretKey)
 

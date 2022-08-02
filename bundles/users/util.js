@@ -34,7 +34,7 @@ function sign (user) {
 }
 
 function attachToken (res, token) {
-  return res.cookie(tokenHeader, token)
+  return res.cookie(tokenHeader, `Bearer ${token}`)
 }
 
 function clearCookie (res) {

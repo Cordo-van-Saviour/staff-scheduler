@@ -1,4 +1,5 @@
 'use strict'
+const { companies } = require('../bundles/utils/enums')
 const {
   Model
 } = require('sequelize')
@@ -24,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       unique: true
     },
+    company: DataTypes.ENUM(companies),
     password: DataTypes.STRING,
     type: {
       type: DataTypes.ENUM('staff', 'admin'),
