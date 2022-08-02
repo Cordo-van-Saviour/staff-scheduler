@@ -25,8 +25,8 @@ async function readScheduleEntryForUser (req, res) {
     }
   }
 
-  const data = await ser.readScheduleEntry(targetId)
-  const returnData = prepareForClient(data)
+  const data = await ser.readScheduleEntriesByUser(targetId)
+  const returnData = data.map(prepareForClient)
 
   return res.status(200).send(returnData)
 }

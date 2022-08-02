@@ -62,6 +62,22 @@ async function updateScheduleEntry (id, startTime, endTime) {
   })
 }
 
+async function checkWhetherCoworkers (targetId, callerId) {
+  // using 2 calls is more performant than one here
+  const targetUser = await db.User.findOne({ where: { id: targetId } })
+  const callerUser = await db.User.findOne({ where: { id: callerId } })
+
+  if (!targetUser || !callerUser) {
+    return false
+  }
+
+  if (targetUser.company !== callerUser.company) {
+    return false
+  }
+
+  return true
+}
+
 async function deleteScheduleEntry (id) {
   return await db.Schedule.destroy({ where: { id } })
 }
@@ -73,5 +89,6 @@ module.exports = {
   readScheduleEntriesByUser,
   readScheduleEntriesByDate,
   updateScheduleEntry,
-  deleteScheduleEntry
+  deleteScheduleEntry,
+  checkWhetherCoworkers
 }
