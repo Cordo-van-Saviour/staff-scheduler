@@ -1,5 +1,7 @@
 const ser = require('./service')
 const { prepareForClient, sign, attachToken, clearCookie } = require('./util')
+const bcrypt = require('bcryptjs')
+const { RETURN_OBJECTS } = require('../utils/enums')
 
 async function readUser (req, res) {
   const data = await ser.readUser(req.params.id)
@@ -21,25 +23,31 @@ async function createUser (req, res) {
   }
 
   res = await ser.createUser(req, res)
-  res.status(201).json({ message: 'OK' })
+  res.status(201).json(RETURN_OBJECTS.CREATED)
 }
 
 async function login (req, res) {
   const user = await ser.readUserByEmail(req.body.email)
+  // okay email
+  if (!user) {
+    return res.status(400).send(RETURN_OBJECTS.BAD_REQUEST)
+  }
+
+  const validPassword = await bcrypt.compare(req.body.password, user.password)
+  // okay password
+  if (!validPassword) {
+    return res.status(400).send(RETURN_OBJECTS.BAD_REQUEST)
+  }
+
   const token = await sign(user)
   res = attachToken(res, token)
 
-  res.status(200).send({ message: 'OK' })
+  res.status(200).send(RETURN_OBJECTS.OK)
 }
 
 async function logout (req, res) {
   res = clearCookie(res)
-  res.status(200).send({ message: 'OK' })
-}
-
-async function updateUserAdmin (req, res) {
-  const dbRes = await ser.updateUser(req.body)
-  res.status(200).send(dbRes)
+  res.status(200).send(RETURN_OBJECTS.OK)
 }
 
 async function updateUser (req, res) {
@@ -54,7 +62,7 @@ async function deleteUser (req, res) {
   const id = req.params.id
   await ser.deleteUser(id)
 
-  res.status(200).send({ message: 'OK' })
+  res.status(200).send(RETURN_OBJECTS.OK)
 }
 
 module.exports = {
@@ -62,7 +70,6 @@ module.exports = {
   readUser,
   readUsers,
   updateUser,
-  updateUserAdmin,
   deleteUser,
   login,
   logout

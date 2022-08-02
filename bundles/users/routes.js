@@ -5,7 +5,7 @@ const ctrl = require('./controller')
 const { authorized, authenticated, isAdmin, controlId } = require('../utils/auth')
 
 /* GET users listing. */
-router.get('/all', authenticated, authorized, isAdmin, ctrl.readUsers)
+router.get('/', authenticated, authorized, isAdmin, ctrl.readUsers)
 router.get('/:id', val.user.readUser, authenticated, authorized, ctrl.readUser)
 
 router.post('/register', val.user.createUser, ctrl.createUser)
