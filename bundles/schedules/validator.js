@@ -24,7 +24,6 @@ module.exports = {
       .withMessage(VALIDATION_MESSAGES.INVALID_TIME)
       .optional(),
     body('endTime')
-      .isAlphanumeric()
       .isISO8601()
       .withMessage(VALIDATION_MESSAGES.INVALID_TIME)
       .optional()
