@@ -1,5 +1,6 @@
 const ser = require('./service')
 const { prepareForClient } = require('./util')
+const { isAdmin } = require('../utils/misc')
 
 async function readScheduleEntry (req, res) {
   const id = req.params.id
@@ -10,9 +11,29 @@ async function readScheduleEntry (req, res) {
   return res.status(200).send(returnData)
 }
 
+async function readScheduleEntryForUser (req, res) {
+  const targetId = req.params.id
+  const callerId = req.verified.id
+
+  // check if admin first...
+  if (!isAdmin(req)) {
+    const coworkers = await ser.checkWhetherCoworkers(targetId, callerId)
+
+    // if not admin, then check if users are coworkers
+    if (!coworkers) {
+      return res.status(403).send({ message: 'Unauthorized' })
+    }
+  }
+
+  const data = await ser.readScheduleEntry(targetId)
+  const returnData = prepareForClient(data)
+
+  return res.status(200).send(returnData)
+}
+
 async function createScheduleEntry (req, res) {
-  const startTime = new Date(req.body.startTime).toISOString()
-  const endTime = new Date(req.body.endTime).toISOString()
+  const startTime = req.body.startTime
+  const endTime = req.body.endTime
 
   const collision = await ser.checkCollisionForUser(req.verified.id, startTime, endTime)
 
@@ -57,6 +78,7 @@ async function deleteScheduleEntry (req, res) {
 module.exports = {
   createScheduleEntry,
   readScheduleEntry,
+  readScheduleEntryForUser,
   updateScheduleEntry,
   deleteScheduleEntry
 }

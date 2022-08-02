@@ -1,5 +1,5 @@
 'use strict'
-const { companies } = require('../bundles/utils/enums')
+const { companies, USER_ROLES } = require('../bundles/utils/enums')
 
 module.exports = {
   async up (queryInterface, Sequelize) {
@@ -31,7 +31,7 @@ module.exports = {
       },
       type: {
         allowNull: false,
-        type: Sequelize.ENUM('staff', 'admin'),
+        type: Sequelize.ENUM(Object.values(USER_ROLES)),
         defaultValue: 'staff'
       },
       createdAt: {

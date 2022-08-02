@@ -10,7 +10,7 @@ const tokenHeader = config.get('tokenHeader')
 function authenticated (req, res, next) {
   const jwtSecretKey = process.env.TOKEN_KEY
 
-  const token = req.cookies[tokenHeader][1]
+  const token = req.cookies[tokenHeader].split(' ')[1]
 
   if (!token) {
     return res.status(401).send({ message: 'Access Denied' })
@@ -47,7 +47,7 @@ function isAdmin (req, res, next) {
 function controlId (req, res, next) {
   req.id = req.params.id
 
-  if (!req.verified.isAdmin && req.params.id !== req.verified.id) {
+  if (!req.verified.isAdmin || req.params.id !== req.verified.id) {
     return res.status(403).send({ message: 'Unauthorized' })
   }
 

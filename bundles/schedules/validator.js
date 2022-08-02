@@ -1,4 +1,4 @@
-const { body, param } = require('express-validator')
+const { body, param, query } = require('express-validator')
 const { VALIDATION_MESSAGES } = require('../utils/errors')
 
 module.exports = {
@@ -33,5 +33,10 @@ module.exports = {
     param('id')
       .isUUID(4)
       .withMessage(VALIDATION_MESSAGES.INVALID_ENTRY_ID)
+  ],
+  readScheduleEntriesForUser: [
+    query('userId')
+      .isUUID(4)
+      .withMessage(VALIDATION_MESSAGES.INVALID_USER_ID)
   ]
 }

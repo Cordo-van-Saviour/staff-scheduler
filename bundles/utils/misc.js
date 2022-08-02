@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer')
+const { USER_ROLES } = require('./enums')
 const { SMTP_USER, SMTP_PASS, SMTP_PORT, SMTP_HOST, DEVELOPER_EMAIL } = process.env
 
 const transporter = nodemailer.createTransport({
@@ -21,6 +22,11 @@ async function sendEmailToTheDeveloper (data) {
   })
 }
 
+function isAdmin (req) {
+  return req.verified.type === USER_ROLES.admin
+}
+
 module.exports = {
-  sendEmailToTheDeveloper
+  sendEmailToTheDeveloper,
+  isAdmin
 }
