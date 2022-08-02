@@ -17,6 +17,8 @@ Also, you can access the demo [documentation on Swaggerhub](https://app.swaggerh
 
 > I've spent [6] hours trying to debug the issue why `sequelize db:migrate` doesn't work inside the Docker. I'll retry it fresh.  
 
+> Sooo, it seems that I've complicated my life with wanting to make the API more flexible - using random time intervals instead of hours - so I'll need to fix that now.
+
 ## Security practices
 
 #### Headers

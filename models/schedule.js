@@ -25,8 +25,8 @@ module.exports = (sequelize, DataTypes) => {
     userId: {
       type: DataTypes.UUID
     },
-    startTime: DataTypes.DATE,
-    endTime: DataTypes.DATE
+    startDate: DataTypes.DATEONLY,
+    shiftLength: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Schedule'
