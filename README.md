@@ -15,6 +15,10 @@ Also, you can access the demo [documentation on Swaggerhub](https://app.swaggerh
 5. Run `sequelize-cli db:seed:all --config=config/config.js --env=docker`
 6. start testing
 
+Optionally, you can get JWT keys with long expiration date for testing purposes:
+* [JWT Admin](https://podino.s3.us-west-1.amazonaws.com/jwt.admin.txt)
+* [JWT Staff User](https://podino.s3.us-west-1.amazonaws.com/jwt.developer.txt)
+
 > I've spent [6] hours trying to debug the issue why `sequelize db:migrate` doesn't work inside the Docker. I'll retry it fresh.  
 
 > Sooo, it seems that I've complicated my life with wanting to make the API more flexible - using random time intervals instead of hours - so I'll need to fix that now.
