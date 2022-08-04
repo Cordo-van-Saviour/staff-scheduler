@@ -33,24 +33,12 @@ function sign (user) {
   )
 }
 
-function attachToken (res, token) {
-  return res.cookie(tokenHeader, `Bearer ${token}`)
-}
-
 function clearCookie (res) {
   return res.clearCookie(tokenHeader)
-}
-
-async function assignAuthorizationLevel (req, authLevel) {
-  req.minimumAuthorizationLevel = authLevel
-
-  return req
 }
 
 module.exports = {
   prepareForClient,
   sign,
-  clearCookie,
-  assignAuthorizationLevel,
-  attachToken
+  clearCookie
 }

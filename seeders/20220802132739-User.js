@@ -1,9 +1,11 @@
 'use strict'
 
+const { seederUserIds } = require('./consts')
+
 module.exports = {
   up: async (queryInterface) => {
     return await queryInterface.bulkInsert('Users', [{
-      id: '1d36ad64-1f9b-442e-ac79-03e1acbcf084',
+      id: seederUserIds[0],
       firstName: 'Mica',
       lastName: 'Mecava',
       email: 'mica@getnada.com',
@@ -14,7 +16,7 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      id: 'aef33417-da85-4742-bc1e-fc70d168ef75',
+      id: seederUserIds[1],
       firstName: 'Admin',
       lastName: 'Mecava',
       email: 'admin@getnada.com',
