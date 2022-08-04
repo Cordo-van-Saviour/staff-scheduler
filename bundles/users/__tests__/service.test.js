@@ -45,6 +45,7 @@ describe('user.service', () => {
         type: USER_ROLES.staff
       }
     }
+    
     const data = await ser.createUser(userData.body)
     expect(data).toBeTruthy()
   })

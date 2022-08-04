@@ -21,6 +21,7 @@ Optionally, you can get JWT keys with long expiration date for testing purposes:
 
 > I've spent [6] hours trying to debug the issue why `sequelize db:migrate` doesn't work inside the Docker.  
 
+
 ## Security practices
 
 #### Headers
