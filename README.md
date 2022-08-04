@@ -5,7 +5,7 @@
 ### Use the demo
 You can use the [demo app deployed on Heroku](https://staff-scheduler-barbusa.herokuapp.com).
 
-Also, you can access the demo [documentation on Swaggerhub](https://app.swaggerhub.com/apis/Cordo-van-Saviour/staff-scheduler/0.0.1) and run tests from there
+Also, you can access the demo [documentation on SwaggerHub](https://app.swaggerhub.com/apis/Cordo-van-Saviour/staff-scheduler/0.0.1) and run tests from there
 
 ### Running it locally
 1. Download .env file to the root of the project [using this link](https://podino.s3.us-west-1.amazonaws.com/dotenv.file) 
@@ -35,13 +35,13 @@ We are setting up a query injection vulnerabilities prevention by always using [
 
 ### Potential improvements
 - *Add more tests*
-  - Code coverage should be a lot better but since there is not a lot of business logic, a decision was made to not write unitt tests for the functions that only call libraries like Sequelize or Jsonwebtoken. Integration tests are fine
+  - Code coverage should be a lot better but since there is not a lot of business logic, a decision was made to not write unit tests for the functions that only call libraries like Sequelize or Jsonwebtoken. Integration tests are fine
 - *Secret Management System*
   - We should set up something like [HashiCorp Vault](https://www.vaultproject.io/) as an alternative to existing secret store. 
 - *Add SSL*
   - Self-explanatory
 - *Automated vulnerability scanner*
-  - We should continually scan for vulnerabilities in this project using [Snyk](https://snyk.io/) or [Github](https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors). As of right now, per `npm audit`, we have zero known vulnerabilities.
+  - We should continually scan for vulnerabilities in this project using [Snyk](https://snyk.io/) or [GitHub](https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors). As of right now, per `npm audit`, we have zero known vulnerabilities.
 - *CI / CD*
 - ...
 
