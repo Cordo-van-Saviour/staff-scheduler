@@ -6,7 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "bcryptjs": "^2.4.3",
+    "bcrypt": "^5.0.1",
     "cls-rtracer": "^2.6.2",
     "config": "^3.3.7",
     "cookie-parser": "~1.4.4",

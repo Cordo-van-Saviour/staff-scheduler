@@ -45,10 +45,8 @@ describe('user.service', () => {
         type: USER_ROLES.staff
       }
     }
-    const res = mockResponse()
-
-    const data = await ser.createUser(userData.body, res)
-
+    
+    const data = await ser.createUser(userData.body)
     expect(data).toBeTruthy()
   })
 })

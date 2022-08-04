@@ -1,6 +1,6 @@
 const ser = require('./service')
 const { prepareForClient, sign, clearCookie } = require('./util')
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcrypt')
 const { RETURN_OBJECTS } = require('../utils/enums')
 const { tokenHeader } = require('../../config/default')
 

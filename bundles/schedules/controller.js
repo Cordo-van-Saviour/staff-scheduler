@@ -1,5 +1,5 @@
 const ser = require('./service')
-const { prepareForClient } = require('./util')
+const { prepareForClient, checkWhetherCoworkers } = require('./util')
 const { RETURN_OBJECTS } = require('../utils/enums')
 const { isAdmin } = require('../utils/misc')
 const dayjs = require('dayjs')
@@ -25,7 +25,7 @@ async function readScheduleEntryForUser (req, res) {
 
   // check if admin first...
   if (!isAdmin(req)) {
-    const coworkers = await ser.checkWhetherCoworkers(targetId, callerId)
+    const coworkers = await checkWhetherCoworkers(targetId, callerId)
 
     // if not admin, then check if users are coworkers
     if (!coworkers) {
