@@ -3,7 +3,7 @@
 ## How to run
 
 ### Use the demo
-You can use the [DEMO app deployed on Heroku](https://staff-scheduler-barbusa.herokuapp.com).
+You can use the [demo app deployed on Heroku](https://staff-scheduler-barbusa.herokuapp.com).
 
 Also, you can access the demo [documentation on Swaggerhub](https://app.swaggerhub.com/apis/Cordo-van-Saviour/staff-scheduler/0.0.1) and run tests from there
 
@@ -19,7 +19,7 @@ Optionally, you can get JWT keys with long expiration date for testing purposes:
 * [JWT Admin](https://podino.s3.us-west-1.amazonaws.com/jwt.admin.txt)
 * [JWT Staff User](https://podino.s3.us-west-1.amazonaws.com/jwt.developer.txt)
 
-> I've spent [6] hours trying to debug the issue why `sequelize db:migrate` doesn't work inside the Docker. I'll retry it fresh.  
+> I've spent [6] hours trying to debug the issue why `sequelize db:migrate` doesn't work inside the Docker.  
 
 ## Security practices
 
@@ -33,24 +33,22 @@ production obviously we should use nginx, firewall, a real load balancer, etc.
 #### Query injection prevention
 We are setting up a query injection vulnerabilities prevention by always using [Sequelize](https://sequelize.org/)
 
-#### TODO: Moment
-[Moment.js](https://www.npmjs.com/package/moment) is a legacy project, now in maintenance mode. Even though there are (possibly) better alternatives such as [luxon](https://www.npmjs.com/package/luxon) or [day.js](https://www.npmjs.com/package/dayjs), we chose to use moment since it is the most widely used and most well known library. We should talk about migrating away.  
+### Potential improvements
+- *Add more tests*
+  - Code coverage should be a lot better but since there is not a lot of business logic, a decision was made to not write unitt tests for the functions that only call libraries like Sequelize or Jsonwebtoken. Integration tests are fine
+- *Secret Management System*
+  - We should set up something like [HashiCorp Vault](https://www.vaultproject.io/) as an alternative to existing secret store. 
+- *Add SSL*
+  - Self-explanatory
+- *Automated vulnerability scanner*
+  - We should continually scan for vulnerabilities in this project using [Snyk](https://snyk.io/) or [Github](https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors). As of right now, per `npm audit`, we have zero known vulnerabilities.
+- *CI / CD*
+- ...
 
-#### TODO: bcrypt
-This project uses `bcryptjs` at this moment which is slower than `bcrypt`. We had issues on M1 Macs during the development with `bcrypt` so we didn't want to waste time solving it but in future iterations `bcryptjs` should be changed.
+### Logging practices
 
-#### TODO: Secret management system
-We should set up something like [HashiCorp Vault](https://www.vaultproject.io/) as an alternative to existing secret store.
+> Your application code should not handle log routing
 
-#### TODO: Add SSL
-Self-explanatory
-
-#### TODO: Add Snyk or another automated vulnerability scanner
-We should continually scan for vulnerabilities in this project using [Snyk](https://snyk.io/) or [Github](https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors). As of right now, per `npm audit`, we have zero known vulnerabilities.
-
-## Logging practices
-
-#### Your application code should not handle log routing
 Essentially we're not defining separate transports in-app for development and production. This isn't an application concern, 
 but application that has separation of concerns done right should handle this on infrastructure level.
 
@@ -58,8 +56,3 @@ but application that has separation of concerns done right should handle this on
 `pm2` should be used in production
 
 ## Potential Improvements
-* CI / CD
-* SSL
-* Secret Management System
-* bcrypt
-* ...
