@@ -1,7 +1,8 @@
 const ser = require('./service')
-const { prepareForClient, sign, attachToken, clearCookie } = require('./util')
+const { prepareForClient, sign, clearCookie } = require('./util')
 const bcrypt = require('bcryptjs')
 const { RETURN_OBJECTS } = require('../utils/enums')
+const { tokenHeader } = require('../../config/default')
 
 async function readUser (req, res) {
   const data = await ser.readUser(req.params.id)
@@ -22,8 +23,16 @@ async function createUser (req, res) {
     return res.status(409).send({ message: 'User Already Exist. Please Login' })
   }
 
-  res = await ser.createUser(req, res)
-  res.status(201).json(RETURN_OBJECTS.CREATED)
+  // Encrypt user password
+  const salt = await bcrypt.genSalt(10)
+  req.body.password = await bcrypt.hash(req.body.password, salt)
+
+  const user = await ser.createUser(req.body, res)
+  // Create token
+  const token = await sign(user)
+  res.cookie(tokenHeader, `Bearer ${token}`)
+
+  return res.status(201).json(RETURN_OBJECTS.CREATED)
 }
 
 async function login (req, res) {
@@ -38,9 +47,9 @@ async function login (req, res) {
   if (!validPassword) {
     return res.status(400).send(RETURN_OBJECTS.BAD_REQUEST)
   }
-
+  // Create token
   const token = await sign(user)
-  res = attachToken(res, token)
+  res.cookie(tokenHeader, `Bearer ${token}`)
 
   res.status(200).send(RETURN_OBJECTS.OK)
 }

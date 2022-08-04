@@ -11,7 +11,7 @@ module.exports = {
   },
   test: {
     use_env_variable: 'DB_URI_TEST',
-    dialect: process.env.DB_DIALECT
+    logging: false
   },
   production: {
     use_env_variable: 'DB_URI',
